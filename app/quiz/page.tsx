@@ -1,3 +1,4 @@
+// app/quiz/page.tsx
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -7,7 +8,6 @@ export default function QuizStartPage() {
   const router = useRouter()
 
   const handleStart = () => {
-    // localStorage に回答配列を初期化しておく
     localStorage.setItem('answers', JSON.stringify([]))
     router.push('/quiz/1')
   }
@@ -21,13 +21,24 @@ export default function QuizStartPage() {
         alignItems: 'center',
         justifyContent: 'center',
         p: 2,
+        background: 'linear-gradient(135deg, #FFF7E6 0%, #FFE4B5 100%)',
       }}
     >
-      <Typography variant="h5" gutterBottom>
-        診断テストを始める
+      <Typography variant="h4" gutterBottom sx={{ fontSize: '1.8rem', mb: 4 }}>
+        診断テストを始めましょう！
       </Typography>
-      <Button variant="contained" size="large" onClick={handleStart}>
-        診断を始める
+      <Button
+        variant="contained"
+        size="large"
+        onClick={handleStart}
+        sx={{
+          py: 1.5,
+          px: 4,
+          transition: 'transform 0.15s',
+          '&:hover': { transform: 'scale(1.05)' },
+        }}
+      >
+        スタート
       </Button>
     </Box>
   )
