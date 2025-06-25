@@ -3,43 +3,43 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Card, Typography } from '@mui/material'
 import ReplayIcon from '@mui/icons-material/Replay'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 
 const resultDetails: Record<string, { title: string; description: string }> = {
   GAD: {
     title: '全般性不安（GAD）',
     description:
-      'あなたは日常生活のささいなことまで過剰に心配してしまう傾向があります。仕事や人間関係、健康について「もしうまくいかなかったら…」と考え、不安が頭から離れません。人から「考えすぎだよ」と言われても止められず、肩こりや胃痛など身体症状を伴うこともあります。',
+      '日常のささいなことまで「もしうまくいかなかったら…」と考え、不安が頭を離れないタイプです。\n\n- 仕事や人間関係、健康について過剰に心配\n- 考えすぎで肩こりや胃痛など身体症状を伴う\n- 「考えすぎ」と言われても止められない',
   },
   Panic: {
     title: 'パニック性不安',
     description:
-      '予期せず突然の動悸や息切れ、めまいを伴うパニック発作が起こりやすいタイプです。発作中には「死ぬかもしれない」という強い恐怖を感じ、再発を不安視して生活範囲を制限してしまう傾向があります。人混みや閉鎖空間を避けがちで、発作後の疲労感も強いのが特徴です。',
+      '予期せず動悸・息切れ・めまいを伴う強い恐怖（パニック発作）が起こりやすいタイプです。\n\n- 発作中に「死ぬかも」と感じる\n- 再発を怖れて人混みや閉鎖空間を避ける\n- 発作後の疲労感が強い',
   },
   Social: {
     title: '社会的不安（SAD）',
     description:
-      '人前での発言やプレゼン、初対面の場面で強い緊張を覚え、声が震えたり赤面したりします。他人の視線や評価が気になりすぎて、会議や飲み会を回避しがちです。発言後には自分の言動を何度も反芻し、人間関係に消極的になることがあります。',
+      '人前での発言やプレゼンで声が震える、赤面するなどの強い緊張を感じるタイプです。\n\n- 他人の評価や視線が気になりすぎる\n- 会議や飲み会を回避しがち\n- 発言後に何度も反芻してしまう',
   },
   Phobia: {
     title: '特定の恐怖（フォビア）',
     description:
-      '特定の対象（虫・高所・飛行機など）に恐怖心があり、日常生活に支障をきたすことがあります。理屈では安全と分かっていても、対象を目にすると冷や汗や動悸が起こり、行動範囲を制限してしまいます。過去の怖い経験がトラウマとして影響している場合もあります。',
+      '虫・高所・飛行機など、特定の対象に対して激しい恐怖を感じるタイプです。\n\n- 理屈では「大丈夫」と分かっても身体が反応\n- 対象を避けるため行動範囲が制限される\n- 過去のトラウマが影響している場合も',
   },
   OCD: {
     title: '強迫性障害（OCD）',
     description:
-      '鍵やガス元栓の確認、手洗いなどを繰り返す強迫行為が特徴です。「やらなければ悪いことが起こる」と感じ、止めたくても止められず、時間を浪費してしまいます。本人も「変だ」と気付きながらやめられず、日常生活や仕事に支障が出がちです。',
+      '鍵やガス元の確認、手洗いなどの儀式的行動を繰り返すタイプです。\n\n- 止めたくても行動が止まらない\n- 時間を浪費し、仕事や日常に支障が出る\n- 自分で「変だ」と気づきながらやめられない',
   },
   Separation: {
     title: '分離不安（成人）',
     description:
-      '大切な人と離れる際に強い不安や苦しさを感じ、一人でいるのがつらいタイプです。相手の安否が気になりすぎて頻繁に連絡し、依存的な行動を取ってしまいます。過去の別れや離別経験がトラウマとなり、過度な執着心が残る傾向があります。',
+      '大切な人と離れる際に強い不安を感じ、依存的な行動を取りやすいタイプです。\n\n- 離れる前後に何度も確認・連絡を取る\n- 一人でいることがつらく感じる\n- 過去の離別経験がトラウマに',
   },
 }
 
 export default function ResultPage() {
   const [top, setTop] = useState<string>('')
-
   useEffect(() => {
     const ans: string[] = JSON.parse(localStorage.getItem('answers') || '[]')
     const counts = ans.reduce<Record<string, number>>((a, k) => {
@@ -55,10 +55,7 @@ export default function ResultPage() {
     location.href = '/quiz'
   }
 
-  const detail = resultDetails[top] || {
-    title: '診断結果なし',
-    description: '診断結果を取得できませんでした。最初からやり直してください。',
-  }
+  const detail = resultDetails[top] || { title: '', description: '' }
 
   return (
     <Box
@@ -71,14 +68,18 @@ export default function ResultPage() {
         justifyContent: 'center',
       }}
     >
-      <Card sx={{ maxWidth: 400, width: '100%', p: 3, boxShadow: 2 }}>
+      <Card sx={{ maxWidth: 400, width: '100%', p: 3, boxShadow: 2, textAlign: 'center' }}>
+        <EmojiEventsIcon sx={{ fontSize: '3rem', color: 'secondary.main', mb: 1 }} />
         <Typography variant="h4" sx={{ mb: 2 }}>
           診断結果
         </Typography>
         <Typography variant="h5" sx={{ mb: 1 }}>
           {detail.title}
         </Typography>
-        <Typography variant="body1" sx={{ mb: 3 }}>
+        <Typography
+          variant="body1"
+          sx={{ whiteSpace: 'pre-line', textAlign: 'left', mb: 3, fontSize: '1rem' }}
+        >
           {detail.description}
         </Typography>
         <Button
@@ -87,7 +88,7 @@ export default function ResultPage() {
           onClick={retry}
           sx={{
             backgroundColor: 'secondary.main',
-            '&:hover': { backgroundColor: 'secondary.dark' },
+            '&:hover': { backgroundColor: 'secondary.dark', transform: 'scale(1.03)' },
             py: 1.2,
             fontSize: '1rem',
           }}

@@ -20,20 +20,23 @@ export default function QuizStartPage() {
         justifyContent: 'center',
         px: 3,
         background: 'linear-gradient(135deg, #E8F7E4 0%, #FFFFFF 100%)',
+        textAlign: 'center',
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" sx={{ mb: 2 }}>
         あなたの不安タイプをチェック！
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 4 }}>
+        簡単な10問で、あなたにぴったりのタイプを診断します。
       </Typography>
       <Button
         variant="contained"
         size="large"
         onClick={start}
         sx={{
-          mt: 2,
           py: 1.2,
-          px: 4,
-          fontSize: '1rem',
+          px: 5,
+          fontSize: '1.1rem',
           backgroundColor: 'secondary.main',
           '&:hover': { backgroundColor: 'secondary.dark', transform: 'scale(1.05)' },
         }}

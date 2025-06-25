@@ -19,9 +19,9 @@ import questions, { Question } from '../data/questions'
 
 export default function QuestionPage() {
   const router = useRouter()
-  const params = useParams()
-  const step = Number(params.step)
-  const question: Question | undefined = questions[step - 1]
+  const { step } = useParams()
+  const idx = Number(step || 0)
+  const question: Question | undefined = questions[idx - 1]
   const [selected, setSelected] = useState('')
 
   useEffect(() => {
@@ -31,11 +31,11 @@ export default function QuestionPage() {
   const next = () => {
     const prev = JSON.parse(localStorage.getItem('answers') || '[]')
     localStorage.setItem('answers', JSON.stringify([...prev, selected]))
-    router.push(step < questions.length ? `/quiz/${step + 1}` : '/quiz/result')
+    router.push(idx < questions.length ? `/quiz/${idx + 1}` : '/quiz/result')
   }
 
   if (!question) return null
-  const progress = Math.round(((step - 1) / questions.length) * 100)
+  const progress = Math.round(((idx - 1) / questions.length) * 100)
 
   return (
     <Box
@@ -45,16 +45,18 @@ export default function QuestionPage() {
         py: 3,
       }}
     >
+      {/* 進捗 */}
       <Box sx={{ px: 2, mb: 1 }}>
-        <Typography variant="body2" sx={{ textAlign: 'right', fontSize: '0.875rem' }}>
-          {progress}% 
+        <Typography variant="body2" sx={{ textAlign: 'right' }}>
+          {progress}% Completed
         </Typography>
         <LinearProgress variant="determinate" value={progress} sx={{ height: 6, borderRadius: 3 }} />
       </Box>
 
-      <Card sx={{ mx: 2, p: 2, boxShadow: 2 }}>
-        <Typography variant="h5" gutterBottom>
-          Q{step}. {question.text}
+      {/* 質問 */}
+      <Card sx={{ mx: 2, p: 3, boxShadow: 2 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Q{idx}. {question.text}
         </Typography>
         <FormControl>
           <RadioGroup value={selected} onChange={(e) => setSelected(e.target.value)}>
@@ -64,12 +66,15 @@ export default function QuestionPage() {
                 value={opt.categoryKey}
                 control={
                   <Radio
-                    icon={<CheckBoxOutlineBlankIcon />}
-                    checkedIcon={<CheckBoxIcon />}
-                    color="primary"
+                    icon={<CheckBoxOutlineBlankIcon fontSize="medium" />}
+                    checkedIcon={<CheckBoxIcon fontSize="medium" />}
                   />
                 }
-                label={opt.label}
+                label={
+                  <Typography variant="body1" sx={{ pl: 1, lineHeight: 1.6 }}>
+                    {opt.label}
+                  </Typography>
+                }
                 sx={{ mb: 1 }}
               />
             ))}
@@ -77,7 +82,8 @@ export default function QuestionPage() {
         </FormControl>
       </Card>
 
-      <Box sx={{ px: 2, mt: 2 }}>
+      {/* 次へ */}
+      <Box sx={{ px: 2, mt: 3 }}>
         <Button
           fullWidth
           variant="contained"
@@ -85,12 +91,12 @@ export default function QuestionPage() {
           onClick={next}
           sx={{
             py: 1.2,
-            fontSize: '1rem',
+            fontSize: '1.05rem',
             backgroundColor: 'secondary.main',
             '&:hover': { backgroundColor: 'secondary.dark', transform: 'scale(1.03)' },
           }}
         >
-          {step < questions.length ? '次へ' : '結果を見る'}
+          {idx < questions.length ? '次へ' : '結果を見る'}
         </Button>
       </Box>
     </Box>
