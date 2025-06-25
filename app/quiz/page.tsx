@@ -1,13 +1,11 @@
 // app/quiz/page.tsx
 'use client'
-
 import { useRouter } from 'next/navigation'
 import { Box, Button, Typography } from '@mui/material'
 
 export default function QuizStartPage() {
   const router = useRouter()
-
-  const handleStart = () => {
+  const start = () => {
     localStorage.setItem('answers', JSON.stringify([]))
     router.push('/quiz/1')
   }
@@ -20,22 +18,24 @@ export default function QuizStartPage() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        p: 2,
-        background: 'linear-gradient(135deg, #FFF7E6 0%, #FFE4B5 100%)',
+        px: 3,
+        background: 'linear-gradient(135deg, #E8F7E4 0%, #FFFFFF 100%)',
       }}
     >
-      <Typography variant="h4" gutterBottom sx={{ fontSize: '1.8rem', mb: 4 }}>
-        診断テストを始めましょう！
+      <Typography variant="h4" gutterBottom>
+        あなたの不安タイプをチェック！
       </Typography>
       <Button
         variant="contained"
         size="large"
-        onClick={handleStart}
+        onClick={start}
         sx={{
-          py: 1.5,
+          mt: 2,
+          py: 1.2,
           px: 4,
-          transition: 'transform 0.15s',
-          '&:hover': { transform: 'scale(1.05)' },
+          fontSize: '1rem',
+          backgroundColor: 'secondary.main',
+          '&:hover': { backgroundColor: 'secondary.dark', transform: 'scale(1.05)' },
         }}
       >
         スタート
